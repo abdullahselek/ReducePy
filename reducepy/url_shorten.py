@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import hashlib
+import base64
 
 class UrlShorten(object):
     """Class used to shorten given urls."""
@@ -22,3 +23,7 @@ class UrlShorten(object):
     @staticmethod
     def string_from_bytes(byte_array):
         return "".join(map(chr, byte_array))
+
+    @staticmethod
+    def encode_base64(string):
+        return base64.b64encode(string)
