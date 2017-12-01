@@ -3,7 +3,7 @@
 from flask import Flask
 from flask import request
 from redis import Redis
-from url_shorten import UrlShorten
+from reducepy.url_shorten import UrlShorten
 
 app = Flask(__name__)
 redis = Redis(host='redis', port=6379)
