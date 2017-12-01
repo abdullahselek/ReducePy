@@ -3,6 +3,7 @@
 from flask import Flask
 from flask import request
 from redis import Redis
+from url_shorten import UrlShorten
 
 app = Flask(__name__)
 redis = Redis(host='redis', port=6379)
@@ -13,12 +14,12 @@ def shorten():
     if request.method == 'POST':
         if 'url' in request.form:
             url = request.form['url']
-            return 'URL : %s' % url
+            return UrlShorten.shorten_url(url)
         else:
             error = 'Please post a url'
     elif request.method == 'GET':
         url = request.args.get('url', '')
-        return 'URL : %s' % url
+        return UrlShorten.shorten_url(url)
     else:
         return 'Not supported method'
 
