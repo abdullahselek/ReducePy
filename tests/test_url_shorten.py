@@ -24,7 +24,7 @@ class UrlShorterTest(unittest.TestCase):
         self.assertEqual(string, 'p44')
 
     def test_encode_base64(self):
-        base64_encoded = UrlShorten.encode_base64('axcv4')
+        base64_encoded = UrlShorten.encode_base64(b'axcv4')
         self.assertEqual(base64_encoded, 'YXhjdjQ=')
 
     def test_shorten_url(self):

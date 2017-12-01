@@ -25,13 +25,12 @@ class UrlShorten(object):
         return "".join(map(chr, byte_array))
 
     @staticmethod
-    def encode_base64(string):
-        return base64.b64encode(string)
+    def encode_base64(byte_array):
+        return str(base64.b64encode(byte_array).decode('utf-8'))
 
     @staticmethod
     def shorten_url(url):
         url_hash = UrlShorten.md5(url)
         url_byte_array = UrlShorten.byte_array(url_hash)
         last_four_bytes = UrlShorten.get_last_x_element(url_byte_array, 4)
-        new_str = UrlShorten.string_from_bytes(last_four_bytes)
-        return 'http://localhost:5000/' + UrlShorten.encode_base64(new_str)[:-2]
+        return 'http://localhost:5000/' + UrlShorten.encode_base64(last_four_bytes)[:-2]
