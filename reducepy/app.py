@@ -10,18 +10,15 @@ redis = Redis(host='redis', port=6379)
 
 @app.route('/', methods=['GET', 'POST'])
 def shorten():
-    error = None
     if request.method == 'POST':
         if 'url' in request.form:
             url = request.form['url']
             return UrlShorten.shorten_url(url)
         else:
-            error = 'Please post a url'
+            return 'Please post a url', 403
     elif request.method == 'GET':
         url = request.args.get('url', '')
         return UrlShorten.shorten_url(url)
-    else:
-        return 'Not supported method'
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)

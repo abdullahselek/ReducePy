@@ -26,3 +26,18 @@ class AppTest(unittest.TestCase):
             follow_redirects=True)
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'http://localhost:5000/ZDYyMw', response.data)
+
+    def test_shorten_empty(self):
+        response = self.app.post(
+            '/',
+            data=dict(key='https://www.google.com'),
+            follow_redirects=True)
+        self.assertEqual(response.status_code, 403)
+        self.assertIn(b'Please post a url', response.data)
+
+    def test_shorten_unsupported(self):
+        response = self.app.patch(
+            '/',
+            data=dict(url='https://www.google.com'),
+            follow_redirects=True)
+        self.assertEqual(response.status_code, 405)
