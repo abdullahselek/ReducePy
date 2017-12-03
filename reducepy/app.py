@@ -13,12 +13,12 @@ def shorten():
     if request.method == 'POST':
         if 'url' in request.form:
             url = request.form['url']
-            return UrlShorten.shorten_url(url)
+            return UrlShorten.shorten_url(url)[1]
         else:
             return 'Please post a url', 403
     elif request.method == 'GET':
         url = request.args.get('url', '')
-        return UrlShorten.shorten_url(url)
+        return UrlShorten.shorten_url(url)[1]
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)

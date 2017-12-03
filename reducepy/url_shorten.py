@@ -29,8 +29,13 @@ class UrlShorten(object):
         return str(base64.b64encode(byte_array).decode('utf-8'))
 
     @staticmethod
-    def shorten_url(url):
+    def create_unique(url):
         url_hash = UrlShorten.md5(url)
         url_byte_array = UrlShorten.byte_array(url_hash)
         last_four_bytes = UrlShorten.get_last_x_element(url_byte_array, 4)
-        return 'http://localhost:5000/' + UrlShorten.encode_base64(last_four_bytes)[:-2]
+        return UrlShorten.encode_base64(last_four_bytes)[:-2]
+
+    @staticmethod
+    def shorten_url(url):
+        unique = UrlShorten.create_unique(url)
+        return unique, 'http://localhost:5000/' + unique

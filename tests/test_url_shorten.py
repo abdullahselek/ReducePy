@@ -27,6 +27,11 @@ class UrlShorterTest(unittest.TestCase):
         base64_encoded = UrlShorten.encode_base64(b'axcv4')
         self.assertEqual(base64_encoded, 'YXhjdjQ=')
 
+    def test_create_unique(self):
+        unique = UrlShorten.create_unique('https://www.google.com')
+        self.assertEqual(unique, 'ZDYyMw')
+
     def test_shorten_url(self):
-        short_url = UrlShorten.shorten_url('https://www.google.com')
+        unique, short_url = UrlShorten.shorten_url('https://www.google.com')
+        self.assertEqual(unique, 'ZDYyMw')
         self.assertEqual(short_url, 'http://localhost:5000/ZDYyMw')
