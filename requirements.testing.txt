@@ -1,6 +1,7 @@
 future
 flask
 redis
+fakeredis
 
 pytest
 pytest-cov
