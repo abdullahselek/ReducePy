@@ -12,4 +12,4 @@ class Store(object):
         self._redis.set(key, value)
 
     def value_of(self, key):
-        return self._redis.get(key)
+        return self._redis.get(key).decode('utf-8')

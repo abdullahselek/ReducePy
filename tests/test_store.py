@@ -16,4 +16,4 @@ class StoreTest(unittest.TestCase):
     def test_keep(self):
         self.store.keep('key', 'value')
         value = self.store.value_of('key')
-        self.assertEqual(value.decode('utf-8'), 'value')
+        self.assertEqual(value, 'value')
