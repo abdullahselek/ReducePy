@@ -15,3 +15,4 @@ __description__  = 'URL shortener service is written with Python using Flask'
 
 from .app import app
 from .url_shorten import UrlShorten
+from .store import Store
