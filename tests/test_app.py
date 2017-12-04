@@ -41,3 +41,8 @@ class AppTest(unittest.TestCase):
             data=dict(url='https://www.google.com'),
             follow_redirects=True)
         self.assertEqual(response.status_code, 405)
+
+    def test_forward(self):
+        response = self.app.get('/YjUwYQ', follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'No url not found', response.data)
