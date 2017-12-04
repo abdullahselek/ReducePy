@@ -25,3 +25,4 @@ class Store(object):
             return None
         except exceptions.ConnectionError:
             print('Redis connection error when trying to get long url')
+            return None
