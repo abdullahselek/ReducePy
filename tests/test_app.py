@@ -14,11 +14,6 @@ class AppTest(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_shorten_get(self):
-        response = self.app.get('/?url=https://www.google.com', follow_redirects=True)
-        self.assertEqual(response.status_code, 200)
-        self.assertIn(b'http://localhost:5000/ZDYyMw', response.data)
-
     def test_shorten_post(self):
         response = self.app.post(
             '/',
@@ -32,7 +27,7 @@ class AppTest(unittest.TestCase):
             '/',
             data=dict(key='https://www.google.com'),
             follow_redirects=True)
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 400)
         self.assertIn(b'Please post a url', response.data)
 
     def test_shorten_unsupported(self):

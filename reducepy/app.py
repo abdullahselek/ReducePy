@@ -18,17 +18,13 @@ def __create_shorten_url(url):
     store.keep(unique, url)
     return short_url
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['POST'])
 def shorten():
-    if request.method == 'POST':
-        if 'url' in request.form:
-            url = request.form['url']
-            return __create_shorten_url(url)
-        else:
-            return 'Please post a url', 403
-    elif request.method == 'GET':
-        url = request.args.get('url', '')
+    if 'url' in request.form:
+        url = request.form['url']
         return __create_shorten_url(url)
+    else:
+        return 'Please post a url', 400
 
 @app.route('/<unique>')
 def forward(unique):
