@@ -14,13 +14,37 @@ class AppTest(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_shorten_post(self):
+    def test_shorten(self):
         response = self.app.post(
             '/',
             data=dict(url='https://www.google.com'),
             follow_redirects=True)
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'http://localhost:5000/ZDYyMw', response.data)
+
+    def test_shorten_without_www(self):
+        response = self.app.post(
+            '/',
+            data=dict(url='https://google.com'),
+            follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'http://localhost:5000/OTY5Zg', response.data)
+
+    def test_shorten_with_path(self):
+        response = self.app.post(
+            '/',
+            data=dict(url='http://www.cwi.nl:80/%7Eguido/Python.html'),
+            follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'http://localhost:5000/NTc3NA', response.data)
+
+    def test_shorten_with_invalid_url(self):
+        response = self.app.post(
+            '/',
+            data=dict(url='abdullahselek.com'),
+            follow_redirects=True)
+        self.assertEqual(response.status_code, 400)
+        self.assertIn(b'Please post a valid url', response.data)
 
     def test_shorten_empty(self):
         response = self.app.post(
