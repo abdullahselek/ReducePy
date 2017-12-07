@@ -78,9 +78,6 @@ Sample Usage
 
 .. code::
 
-    # Shorten url with GET
-    curl -i http://localhost:5000?url=https://github.com
-
     # Shorten url with POST
     curl -i http://localhost:5000 -F "url=https://github.com"
 
