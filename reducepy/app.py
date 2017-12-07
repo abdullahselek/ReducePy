@@ -65,4 +65,4 @@ def forward(unique):
 
 if __name__ == "__main__":
     # This tells your operating system to listen on a public IP
-    app.run(host='0.0.0.0', debug=False)
+    app.run(host='0.0.0.0', port=port, debug=False)
