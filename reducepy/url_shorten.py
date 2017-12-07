@@ -3,6 +3,12 @@
 import hashlib
 import base64
 
+try:
+    # python 3
+    from urllib.parse import urlunparse
+except ImportError:
+    from urlparse import urlunparse
+
 class UrlShorten(object):
     """Class used to shorten given urls."""
 
@@ -36,6 +42,6 @@ class UrlShorten(object):
         return UrlShorten.encode_base64(last_four_bytes)[:-2]
 
     @staticmethod
-    def shorten_url(url):
+    def shorten_url(url, scheme, netloc):
         unique = UrlShorten.create_unique(url)
-        return unique, 'http://localhost:5000/' + unique
+        return unique, urlunparse((scheme, netloc, unique, None, None, None))

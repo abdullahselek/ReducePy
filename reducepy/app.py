@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import os
+
 from flask import (
     Flask,
     redirect
@@ -19,6 +21,15 @@ app = Flask(__name__)
 redis = Redis(host='redis', port=6379)
 store = Store(redis)
 
+try:
+    scheme = os.environ['SCHEME']
+    ip_address = os.environ['IP_ADDRESS']
+    port = os.environ['PORT']
+except KeyError:
+    scheme = 'http'
+    ip_address = 'localhost'
+    port = 5000
+
 def __uri_validator(url):
     try:
         result = urlparse(url)
@@ -29,7 +40,8 @@ def __uri_validator(url):
         return False
 
 def __create_shorten_url(url):
-    unique, short_url = UrlShorten.shorten_url(url)
+    netloc = ip_address + ':' + str(port)
+    unique, short_url = UrlShorten.shorten_url(url, scheme, netloc)
     store.keep(unique, url)
     return short_url
 
@@ -52,4 +64,5 @@ def forward(unique):
         return 'No url not found', 200    
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True)
+    # This tells your operating system to listen on a public IP
+    app.run(host='0.0.0.0', debug=False)

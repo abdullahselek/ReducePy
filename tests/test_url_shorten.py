@@ -32,6 +32,8 @@ class UrlShorterTest(unittest.TestCase):
         self.assertEqual(unique, 'ZDYyMw')
 
     def test_shorten_url(self):
-        unique, short_url = UrlShorten.shorten_url('https://www.google.com')
+        scheme = 'http'
+        netloc = 'localhost' + ':' + str(5000)
+        unique, short_url = UrlShorten.shorten_url('https://www.google.com', scheme, netloc)
         self.assertEqual(unique, 'ZDYyMw')
         self.assertEqual(short_url, 'http://localhost:5000/ZDYyMw')
