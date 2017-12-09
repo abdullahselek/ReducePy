@@ -44,4 +44,4 @@ class UrlShorten(object):
     @staticmethod
     def shorten_url(url, scheme, netloc):
         unique = UrlShorten.create_unique(url)
-        return unique, urlunparse((scheme, netloc, unique, None, None, None))
+        return unique, urlunparse((scheme, netloc, 'forward', None, 'unique=' + unique, None))
