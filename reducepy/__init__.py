@@ -13,6 +13,9 @@ __url__          = 'https://github.com/abdullahselek/ReducePy'
 __download_url__ = 'https://github.com/abdullahselek/ReducePy'
 __description__  = 'URL shortener service is written with Python using Flask'
 
-from .app import app
+from .app import (
+    ShortenUrlHandler,
+    UniqueForwardHandler
+)
 from .url_shorten import UrlShorten
 from .store import Store

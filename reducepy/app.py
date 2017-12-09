@@ -1,12 +1,7 @@
 #!/usr/bin/env python
 
 import os
-
-from flask import (
-    Flask,
-    redirect
-)
-from flask import request
+import tornado.web
 from redis import Redis
 from reducepy.url_shorten import UrlShorten
 from reducepy.store import Store
@@ -17,7 +12,6 @@ try:
 except ImportError:
     from urlparse import urlparse
 
-app = Flask(__name__)
 redis = Redis(host='redis', port=6379)
 store = Store(redis)
 
@@ -28,41 +22,70 @@ try:
 except KeyError:
     scheme = 'http'
     ip_address = 'localhost'
-    port = 5000
+    port = 8888
 
-def __uri_validator(url):
-    try:
-        result = urlparse(url)
-        if result.path:
-            return all([result.scheme, result.netloc, result.path])
-        return all([result.scheme, result.netloc])
-    except:
-        return False
+class ShortenUrlHandler(tornado.web.RequestHandler):
+    def __uri_validator(self, url):
+        try:
+            result = urlparse(url)
+            if result.path:
+                return all([result.scheme, result.netloc, result.path])
+            return all([result.scheme, result.netloc])
+        except:
+            return False
 
-def __create_shorten_url(url):
-    netloc = ip_address + ':' + str(port)
-    unique, short_url = UrlShorten.shorten_url(url, scheme, netloc)
-    store.keep(unique, url)
-    return short_url
+    def __create_shorten_url(self, url):
+        netloc = ip_address + ':' + str(port)
+        unique, short_url = UrlShorten.shorten_url(url, scheme, netloc)
+        store.keep(unique, url)
+        return short_url
 
-@app.route('/', methods=['POST'])
-def shorten():
-    if 'url' in request.form:
-        url = request.form['url']
-        if __uri_validator(url):
-            return __create_shorten_url(url)
-        return 'Please post a valid url', 400
-    else:
-        return 'Please post a url', 400
+    def post(self):
+        url = self.get_argument('url', None)
+        if url:
+            if self.__uri_validator(url):
+                response = {
+                    'error': False,
+                    'shorten_url': self.__create_shorten_url(url)
+                }
+                return self.write(response)
+            self.set_status(400)
+            response = {
+                'error': True,
+                'message': 'Please post a valid url'
+            }
+        else:
+            self.set_status(400)
+            response = {
+                'error': True, 
+                'message': 'Please post a url'
+            }
+        return self.write(response)
 
-@app.route('/<unique>')
-def forward(unique):
-    url = store.value_of(unique)
-    if url:
-        return redirect(url)
-    else:
-        return 'No url not found', 200    
+class UniqueForwardHandler(tornado.web.RequestHandler):
+    def get(self):
+        unique = self.get_argument('unique', None)
+        url = store.value_of(unique)
+        if url:
+            return self.redirect(url)
+        else:
+            response = {
+                'error': True, 
+                'message': 'No url not found with given unique'
+            }
+            return self.write(response)
+
+def main():
+    app = tornado.web.Application(
+        [
+            (r'/', ShortenUrlHandler),
+            (r'/forward', UniqueForwardHandler)
+            ],
+        debug=False,
+        )
+    app.listen(port)
+    tornado.ioloop.IOLoop.current().start()
+
 
 if __name__ == "__main__":
-    # This tells your operating system to listen on a public IP
-    app.run(host='0.0.0.0', port=port, debug=False)
+    main()
