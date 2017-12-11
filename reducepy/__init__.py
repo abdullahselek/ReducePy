@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-"""URL shortener service is written with Python using Flask"""
+"""URL shortener service is written with Python using Tornado and Redis"""
 
 from __future__ import absolute_import
 
@@ -11,7 +11,7 @@ __license__      = 'MIT License'
 __version__      = '0.1'
 __url__          = 'https://github.com/abdullahselek/ReducePy'
 __download_url__ = 'https://github.com/abdullahselek/ReducePy'
-__description__  = 'URL shortener service is written with Python using Flask'
+__description__  = 'URL shortener service is written with Python using Tornado and Redis'
 
 from .app import (
     ShortenUrlHandler,
