@@ -2,6 +2,7 @@
 
 import os
 import tornado.web
+
 from redis import Redis
 from reducepy.url_shorten import UrlShorten
 from reducepy.store import Store
@@ -71,7 +72,7 @@ class UniqueForwardHandler(tornado.web.RequestHandler):
         else:
             response = {
                 'error': True, 
-                'message': 'No url not found with given unique'
+                'message': 'No url found with given unique'
             }
             return self.write(response)
 
