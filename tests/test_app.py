@@ -2,6 +2,7 @@
 
 import os
 import tornado.web
+
 from tornado.testing import AsyncHTTPTestCase
 from tornado.web import Application
 from reducepy import (
@@ -17,7 +18,7 @@ class AppTest(AsyncHTTPTestCase):
 
     def setUp(self):
         super(AppTest, self).setUp()
-        ## allow more time before timeout since we are doing remote access..
+        # allow more time before timeout since we are doing remote access..
         os.environ["ASYNC_TEST_TIMEOUT"] = str(20)
 
     def get_app(self):
@@ -32,35 +33,35 @@ class AppTest(AsyncHTTPTestCase):
         body = urlencode(post_data)
         response = self.fetch(r'/', method='POST', body=body)
         self.assertEqual(response.code, 200)
-        # self.assertIn(b'{"shorten_url": "http://localhost:8888/ZDYyMw", "error": false}', response.body)
+        self.assertEqual(response.body, b'{"error": false, "shorten_url": "http://localhost:8888/forward?unique=ZDYyMw"}')
 
     def test_shorten_without_www(self):
         post_data = {'url': 'https://google.com'}
         body = urlencode(post_data)
         response = self.fetch(r'/', method='POST', body=body)
         self.assertEqual(response.code, 200)
-        # self.assertIn(b'{"shorten_url": "http://localhost:8888/OTY5Zg", "error": false}', response.body)
+        self.assertEqual(response.body, b'{"error": false, "shorten_url": "http://localhost:8888/forward?unique=OTY5Zg"}')
 
     def test_shorten_with_path(self):
         post_data = {'url': 'http://www.cwi.nl:80/%7Eguido/Python.html'}
         body = urlencode(post_data)
         response = self.fetch(r'/', method='POST', body=body)
         self.assertEqual(response.code, 200)
-        # self.assertIn(b'{"shorten_url": "http://localhost:8888/NTc3NA", "error": false}', response.body)
+        self.assertEqual(response.body, b'{"error": false, "shorten_url": "http://localhost:8888/forward?unique=NTc3NA"}')
 
     def test_shorten_with_invalid_url(self):
         post_data = {'url': 'abdullahselek.com'}
         body = urlencode(post_data)
         response = self.fetch(r'/', method='POST', body=body)
         self.assertEqual(response.code, 400)
-        # self.assertIn(b'{"message": "Please post a valid url", "error": true}', response.body)
+        self.assertEqual(response.body, b'{"error": true, "message": "Please post a valid url"}')
 
     def test_shorten_empty(self):
         post_data = {'key': 'https://www.google.com'}
         body = urlencode(post_data)
         response = self.fetch(r'/', method='POST', body=body)
         self.assertEqual(response.code, 400)
-        # self.assertIn(b'{"message": "Please post a url", "error": true}', response.body)
+        self.assertEqual(response.body, b'{"error": true, "message": "Please post a url"}')
 
     def test_shorten_unsupported(self):
         post_data = {'key': 'https://www.google.com'}
@@ -71,4 +72,3 @@ class AppTest(AsyncHTTPTestCase):
     def test_forward(self):
         response = self.fetch('/forward?unique=YjUwYQs', method='GET')
         self.assertEqual(response.code, 200)
-        # self.assertIn(b'{"message": "No url not found with given unique", "error": true}', response.body)

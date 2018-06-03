@@ -2,6 +2,7 @@
 
 import os
 import tornado.web
+import json
 
 from redis import Redis
 from reducepy.url_shorten import UrlShorten
@@ -49,7 +50,7 @@ class ShortenUrlHandler(tornado.web.RequestHandler):
                     'error': False,
                     'shorten_url': self.__create_shorten_url(url)
                 }
-                return self.write(response)
+                return self.write(json.dumps(response, sort_keys=True))
             self.set_status(400)
             response = {
                 'error': True,
@@ -61,7 +62,7 @@ class ShortenUrlHandler(tornado.web.RequestHandler):
                 'error': True, 
                 'message': 'Please post a url'
             }
-        return self.write(response)
+        return self.write(json.dumps(response, sort_keys=True))
 
 class UniqueForwardHandler(tornado.web.RequestHandler):
     def get(self):
@@ -74,7 +75,7 @@ class UniqueForwardHandler(tornado.web.RequestHandler):
                 'error': True, 
                 'message': 'No url found with given unique'
             }
-            return self.write(response)
+            return self.write(json.dumps(response, sort_keys=True))
 
 def main():
     app = tornado.web.Application(
