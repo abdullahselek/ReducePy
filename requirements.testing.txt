@@ -1,6 +1,3 @@
-future
-tornado
-redis
 fakeredis
 
 pytest
