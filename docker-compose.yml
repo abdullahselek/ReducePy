@@ -3,10 +3,10 @@ services:
   web:
     build: .
     ports:
-     - "8888:8888"
+     - "80:80"
     environment:
      - SCHEME=http
      - IP_ADDRESS=127.0.0.1
-     - PORT=8888
+     - PORT=80
   redis:
     image: "redis:alpine"
