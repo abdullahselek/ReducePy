@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import os
+import tornado.ioloop
 import tornado.web
 import json
 
@@ -26,7 +27,8 @@ except KeyError:
     ip_address = 'localhost'
     port = 80
 
-class ShortenUrlHandler(tornado.web.RequestHandler):
+class MainHandler(tornado.web.RequestHandler):
+
     def __uri_validator(self, url):
         try:
             result = urlparse(url)
@@ -48,8 +50,9 @@ class ShortenUrlHandler(tornado.web.RequestHandler):
             if self.__uri_validator(url):
                 response = {
                     'error': False,
-                    'shorten_url': self.__create_shorten_url(url)
+                    'shortened_url': self.__create_shorten_url(url)
                 }
+                self.set_status(201)
                 return self.write(json.dumps(response, sort_keys=True))
             self.set_status(400)
             response = {
@@ -64,30 +67,35 @@ class ShortenUrlHandler(tornado.web.RequestHandler):
             }
         return self.write(json.dumps(response, sort_keys=True))
 
-class UniqueForwardHandler(tornado.web.RequestHandler):
-    def get(self):
-        unique = self.get_argument('unique', None)
-        url = store.value_of(unique)
-        if url:
-            return self.redirect(url)
+    def get(self, *args):
+        if len(args) == 1:                
+            unique = args[0]
+            url = store.value_of(unique)
+            if url:
+                return self.redirect(url)
+            else:
+                response = {
+                    'error': True, 
+                    'message': 'No url found with given unique'
+                }
+                self.set_status(404)
+                return self.write(json.dumps(response, sort_keys=True))
         else:
             response = {
                 'error': True, 
-                'message': 'No url found with given unique'
+                'message': 'Please set only one argument path'
             }
+            self.set_status(400)
             return self.write(json.dumps(response, sort_keys=True))
 
 def main():
     app = tornado.web.Application(
-        [
-            (r'/', ShortenUrlHandler),
-            (r'/forward', UniqueForwardHandler)
-            ],
+        [(r'/', MainHandler),
+         (r'/(.*)', MainHandler)],
         debug=False,
         )
     app.listen(port)
     tornado.ioloop.IOLoop.current().start()
-
 
 if __name__ == "__main__":
     main()
