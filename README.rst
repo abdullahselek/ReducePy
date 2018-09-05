@@ -84,8 +84,8 @@ Sample Usage
     # Response
     {
         "error": false,
-        "shorten_url": "http://127.0.0.1:8888/forward?unique=YjUwYQ"
+        "shortened_url": "http://127.0.0.1:8888/forward?unique=YjUwYQ"
     }
 
     # Redirect to original url
-    http://127.0.0.1:8888/forward?unique=YjUwYQ
+    http://127.0.0.1/YjUwYQ
