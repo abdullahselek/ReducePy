@@ -33,7 +33,7 @@ class UrlShorterTest(unittest.TestCase):
 
     def test_shorten_url(self):
         scheme = 'http'
-        netloc = 'localhost' + ':' + str(8888)
+        netloc = 'localhost'
         unique, short_url = UrlShorten.shorten_url('https://www.google.com', scheme, netloc)
         self.assertEqual(unique, 'ZDYyMw')
-        self.assertEqual(short_url, 'http://localhost:8888/forward?unique=ZDYyMw')
+        self.assertEqual(short_url, 'http://localhost/ZDYyMw')

@@ -33,21 +33,21 @@ class AppTest(AsyncHTTPTestCase):
         body = urlencode(post_data)
         response = self.fetch(r'/', method='POST', body=body)
         self.assertEqual(response.code, 200)
-        self.assertEqual(response.body, b'{"error": false, "shorten_url": "http://localhost:8888/forward?unique=ZDYyMw"}')
+        self.assertEqual(response.body, b'{"error": false, "shorten_url": "http://localhost:80/ZDYyMw"}')
 
     def test_shorten_without_www(self):
         post_data = {'url': 'https://google.com'}
         body = urlencode(post_data)
         response = self.fetch(r'/', method='POST', body=body)
         self.assertEqual(response.code, 200)
-        self.assertEqual(response.body, b'{"error": false, "shorten_url": "http://localhost:8888/forward?unique=OTY5Zg"}')
+        self.assertEqual(response.body, b'{"error": false, "shorten_url": "http://localhost:80/OTY5Zg"}')
 
     def test_shorten_with_path(self):
         post_data = {'url': 'http://www.cwi.nl:80/%7Eguido/Python.html'}
         body = urlencode(post_data)
         response = self.fetch(r'/', method='POST', body=body)
         self.assertEqual(response.code, 200)
-        self.assertEqual(response.body, b'{"error": false, "shorten_url": "http://localhost:8888/forward?unique=NTc3NA"}')
+        self.assertEqual(response.body, b'{"error": false, "shorten_url": "http://localhost:80/NTc3NA"}')
 
     def test_shorten_with_invalid_url(self):
         post_data = {'url': 'abdullahselek.com'}
