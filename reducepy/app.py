@@ -24,7 +24,7 @@ try:
 except KeyError:
     scheme = 'http'
     ip_address = 'localhost'
-    port = 8888
+    port = 80
 
 class ShortenUrlHandler(tornado.web.RequestHandler):
     def __uri_validator(self, url):
