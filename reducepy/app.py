@@ -59,6 +59,7 @@ class MainHandler(tornado.web.RequestHandler):
                 'error': True,
                 'message': 'Please post a valid url'
             }
+            return self.write(json.dumps(response, sort_keys=True))
         else:
             self.set_status(400)
             response = {
