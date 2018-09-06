@@ -79,12 +79,12 @@ Sample Usage
 .. code::
 
     # Shorten url with POST
-    curl -i http://127.0.0.1:8888 -F "url=https://github.com"
+    curl -i http://127.0.0.1 -F "url=https://github.com"
 
     # Response
     {
         "error": false,
-        "shortened_url": "http://127.0.0.1:8888/forward?unique=YjUwYQ"
+        "shortened_url": "http://127.0.0.1/YjUwYQ"
     }
 
     # Redirect to original url
