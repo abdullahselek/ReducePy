@@ -9,6 +9,9 @@ from redis import Redis
 from reducepy.url_shorten import UrlShorten
 from reducepy.store import Store
 
+from tornado.concurrent import run_on_executor
+from concurrent.futures import ThreadPoolExecutor
+
 try:
     # python 3
     from urllib.parse import urlparse
@@ -29,6 +32,8 @@ except KeyError:
 
 class MainHandler(tornado.web.RequestHandler):
 
+    executor = ThreadPoolExecutor(max_workers=5)
+
     def __uri_validator(self, url):
         try:
             result = urlparse(url)
@@ -44,29 +49,33 @@ class MainHandler(tornado.web.RequestHandler):
         store.keep(unique, url)
         return short_url
 
-    def post(self):
-        url = self.get_argument('url', None)
+    @run_on_executor
+    def background_task(self, url):
         if url:
             if self.__uri_validator(url):
                 response = {
                     'error': False,
                     'shortened_url': self.__create_shorten_url(url)
                 }
-                self.set_status(201)
-                return self.write(json.dumps(response, sort_keys=True))
-            self.set_status(400)
+                return 201, json.dumps(response, sort_keys=True)
             response = {
                 'error': True,
                 'message': 'Please post a valid url'
             }
-            return self.write(json.dumps(response, sort_keys=True))
+            return 400, json.dumps(response, sort_keys=True)
         else:
-            self.set_status(400)
             response = {
                 'error': True, 
                 'message': 'Please post a url'
             }
-        return self.write(json.dumps(response, sort_keys=True))
+        return 400, json.dumps(response, sort_keys=True)
+
+    @tornado.gen.coroutine
+    def post(self):
+        url = self.get_argument('url', None)
+        status_code, result = yield self.background_task(url)
+        self.set_status(status_code)
+        self.write(result)
 
     def get(self, *args):
         if len(args) == 1:                
