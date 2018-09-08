@@ -89,3 +89,21 @@ Sample Usage
 
     # Redirect to original url
     http://127.0.0.1/YjUwYQ
+
+    # Error case with invalid url
+    curl -i http://127.0.0.1 -F "url=github"
+
+    # Response
+    {
+        "error": true,
+        "message": "Please post a valid url"
+    }
+
+    # Error case with null url
+    curl -i http://127.0.0.1 -F "url="
+
+    # Response
+    {
+        "error": true,
+        "message": "Please post a url"
+    }
