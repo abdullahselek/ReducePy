@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reducepy
+spec:
+  selector:
+    matchLabels:
+      app: reducepy
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: reducepy
+    spec:
+      containers:
+      - image: reducepy:v1
+        name: reducepy
+        imagePullPolicy: Never
+        ports:
+          - name: http
+            containerPort: 80
