@@ -13,8 +13,8 @@ spec:
         app: reducepy
     spec:
       containers:
-      - image: abdullahselek/ReducePy:1.0
-        name: ReducePy
+      - image: abdullahselek/reducepy:1.0
+        name: reducepy
         imagePullPolicy: Always
         ports:
           - name: http
