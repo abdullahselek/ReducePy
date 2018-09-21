@@ -72,6 +72,27 @@ Running up in Docker
 
     docker-compose up
 
+Running in Kubernetes
+
+- For testing you can run **reducepy** in **Kubernetes** with using **Docker**. Run docker and then the following
+commands should work for you.
+
+.. code::
+
+    # Use Docker for minikube
+    eval $(minikube docker-env)
+
+    # Create developments and pods
+    kubectl create -f deployment-redis.yml
+    kubectl create -f deployment-reducepy.yml
+
+    # Create services
+    kubectl create -f service-redis.yml
+    kubectl create -f service-reducepy.yml
+
+    # Get url for **reducepy**
+    minikube service reducepy --url
+
 ------------
 Sample Usage
 ------------
