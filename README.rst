@@ -39,6 +39,16 @@ To install dependencies, run either::
 To install the minimal dependencies for production use run::
 
     $ pip install -Ur requirements.txt
+    
+========================    
+Downloading Docker Image
+========================
+
+You can download docker image with::
+
+    docker pull abdullahselek/reducepy
+    
+and the docker page for the image https://hub.docker.com/r/abdullahselek/reducepy/.
 
 =============
 Running Tests
