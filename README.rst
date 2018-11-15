@@ -18,7 +18,7 @@ ReducePy
 Introduction
 ============
 
-Url shortener service using `Tornado` and `Redis` runs on `Docker`.
+Url shortener service using `Tornado` and `Redis` runs on `Docker` and `Kubernetes`.
 
 ================
 Getting the code
