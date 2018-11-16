@@ -71,3 +71,8 @@ class AppTest(AsyncHTTPTestCase):
     def test_forward(self):
         response = self.fetch('/YjUwYQs', method='GET')
         self.assertEqual(response.code, 404)
+
+    def test_forward_fail(self):
+        response = self.fetch('/', method='GET')
+        self.assertEqual(response.code, 400)
+        self.assertEqual(response.body, b'{"error": true, "message": "Please set only one argument path"}')
