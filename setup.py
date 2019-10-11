@@ -23,6 +23,12 @@ def extract_metaitem(meta):
         return meta_match.group(1)
     raise RuntimeError('Unable to find __{meta}__ string.'.format(meta=meta))
 
+with open('requirements.txt') as f:
+    requirements = f.read().splitlines()
+
+with open('requirements.testing.txt') as f:
+    requirements_testing = f.read().splitlines()
+
 setup(
     name='reducepy',
     version=extract_metaitem('version'),
@@ -37,9 +43,9 @@ setup(
     download_url=extract_metaitem('download_url'),
     packages=find_packages(exclude=('tests', 'docs')),
     platforms=['Any'],
-    install_requires=['tornado', 'redis'],
+    install_requires=requirements,
     setup_requires=['pytest-runner'],
-    tests_require=['pytest'],
+    tests_require=requirements_testing,
     keywords='url shorten service',
     classifiers=[
         'Intended Audience :: Developers',
