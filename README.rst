@@ -2,6 +2,9 @@
 ReducePy
 ========
 
+.. image:: https://github.com/abdullahselek/ReducePy/workflows/ReducePy%20CI/badge.svg
+    :target: https://github.com/abdullahselek/ReducePy/actions
+
 .. image:: https://codecov.io/gh/abdullahselek/ReducePy/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/abdullahselek/ReducePy
     :alt: Codecov
