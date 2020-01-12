@@ -3,11 +3,7 @@
 import hashlib
 import base64
 
-try:
-    # python 3
-    from urllib.parse import urlunparse
-except ImportError:
-    from urlparse import urlunparse
+from urllib.parse import urlunparse
 
 class UrlShorten(object):
     """Class used to shorten given urls."""

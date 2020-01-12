@@ -12,11 +12,7 @@ from reducepy.store import Store
 from tornado.concurrent import run_on_executor
 from concurrent.futures import ThreadPoolExecutor
 
-try:
-    # python 3
-    from urllib.parse import urlparse
-except ImportError:
-    from urlparse import urlparse
+from urllib.parse import urlparse
 
 redis = Redis(host='redis', port=6379)
 store = Store(redis)
