@@ -5,19 +5,22 @@ from redis import (
     exceptions
 )
 
+
 class Store(object):
     """Class used to store shorten ids and urls."""
 
-    def __init__(self, redis):
+    def __init__(self, redis: Redis):
         self._redis = redis
 
-    def keep(self, key, value):
+
+    def keep(self, key: str, value: str):
         try:
             self._redis.set(key, value)
         except exceptions.ConnectionError:
             print('Redis connection error when trying to keep long url')
 
-    def value_of(self, key):
+
+    def value_of(self, key: str):
         try:
             url = self._redis.get(key)
             if url:

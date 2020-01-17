@@ -14,6 +14,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 from urllib.parse import urlparse
 
+
 redis = Redis(host='redis', port=6379)
 store = Store(redis)
 
@@ -30,7 +31,7 @@ class MainHandler(tornado.web.RequestHandler):
 
     executor = ThreadPoolExecutor(max_workers=5)
 
-    def __uri_validator(self, url):
+    def __uri_validator(self, url: str):
         try:
             result = urlparse(url)
             if result.path:
@@ -39,14 +40,16 @@ class MainHandler(tornado.web.RequestHandler):
         except:
             return False
 
-    def __create_shorten_url(self, url):
+
+    def __create_shorten_url(self, url: str):
         netloc = ip_address + ':' + str(port)
         unique, short_url = UrlShorten.shorten_url(url, scheme, netloc)
         store.keep(unique, url)
         return short_url
 
+
     @run_on_executor
-    def background_task(self, url):
+    def background_task(self, url: str):
         if url:
             if self.__uri_validator(url):
                 response = {
@@ -66,12 +69,14 @@ class MainHandler(tornado.web.RequestHandler):
             }
         return 400, json.dumps(response, sort_keys=True)
 
+
     @tornado.gen.coroutine
     def post(self):
         url = self.get_argument('url', None)
         status_code, result = yield self.background_task(url)
         self.set_status(status_code)
         self.write(result)
+
 
     def get(self, *args):
         if len(args) == 1:                
@@ -94,6 +99,7 @@ class MainHandler(tornado.web.RequestHandler):
             self.set_status(400)
             return self.write(json.dumps(response, sort_keys=True))
 
+
 def main():
     app = tornado.web.Application(
         [(r'/', MainHandler),
@@ -102,6 +108,7 @@ def main():
         )
     app.listen(port)
     tornado.ioloop.IOLoop.current().start()
+
 
 if __name__ == "__main__":
     main()
