@@ -5,6 +5,8 @@ from redis import (
     exceptions
 )
 
+from typing import Optional
+
 
 class Store(object):
     """Class used to store shorten ids and urls."""
@@ -20,7 +22,7 @@ class Store(object):
             print('Redis connection error when trying to keep long url')
 
 
-    def value_of(self, key: str):
+    def value_of(self, key: str) -> Optional[str]:
         try:
             url = self._redis.get(key)
             if url:
