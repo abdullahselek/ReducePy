@@ -44,7 +44,6 @@ setup(
     packages=find_packages(exclude=('tests', 'docs')),
     platforms=['Any'],
     install_requires=requirements,
-    setup_requires=['pytest-runner'],
     tests_require=requirements_testing,
     keywords='url shorten service',
     classifiers=[
