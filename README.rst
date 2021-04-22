@@ -57,7 +57,7 @@ and the docker page for the image https://hub.docker.com/r/abdullahselek/reducep
 Running Tests
 =============
 
-The test suite can be run against a single Python version which requires ```pip install pytest``` and optionally ```pip install pytest-cov``` (these are included if you have installed dependencies from ```requirements.testing.txt```)
+The test suite can be run against a single Python version which requires ``pip install pytest`` and optionally ``pip install pytest-cov`` (these are included if you have installed dependencies from ``requirements.testing.txt``)
 
 To run the unit tests with a single Python version::
 
