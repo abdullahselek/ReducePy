@@ -9,14 +9,6 @@ ReducePy
     :target: https://codecov.io/gh/abdullahselek/ReducePy
     :alt: Codecov
 
-+---------------------------------------------------------------------------+----------------------------------------------------------------------------------+
-|                                Linux                                      |                                       Windows                                    |
-+===========================================================================+==================================================================================+
-| .. image:: https://travis-ci.org/abdullahselek/ReducePy.svg?branch=master | .. image:: https://ci.appveyor.com/api/projects/status/ngvmlb7lr7mf7k0n?svg=true |
-|    :target: https://travis-ci.org/abdullahselek/ReducePy                  |    :target: https://ci.appveyor.com/project/abdullahselek/ReducePy               |
-|    :alt: Travis-Ci                                                        |    :alt: AppVeyor                                                                |
-+---------------------------------------------------------------------------+----------------------------------------------------------------------------------+
-
 ============
 Introduction
 ============
@@ -42,15 +34,15 @@ To install dependencies, run either::
 To install the minimal dependencies for production use run::
 
     $ pip install -Ur requirements.txt
-    
-========================    
+
+========================
 Downloading Docker Image
 ========================
 
 You can download docker image with::
 
     docker pull abdullahselek/reducepy
-    
+
 and the docker page for the image https://hub.docker.com/r/abdullahselek/reducepy/.
 
 =============
